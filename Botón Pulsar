@@ -1,0 +1,69 @@
+sing System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Pulsar : MonoBehaviour
+{
+     public Button btn;
+     public Image img;
+     public Text texto;
+     public Sprite[] spNumeros;
+     public Sprite[] vec_text;
+
+     private bool contar;
+     private int numero;
+    // Start is called before the first frame update
+    void Start()
+    {
+        //Formas para añadir un botón si es privado
+        // btn= GameObject.FindAnyObjectByType<Button>(); // Esto es por si el boton fuera private 
+        btn= GameObject.FindWithTag("btnStart").GetComponent<Button>();// Buscame en la escena un botón que tenga la etiqueta btnStart
+        btn.onClick.AddListener (Pulsado); //Cuando hagas click en el boton se llama a la funcion pulsado
+        contar=false;
+        numero=3;
+        
+    }
+    void Pulsado(){
+        Debug.Log("Pulsado");
+        img.gameObject.SetActive(true); // Activo la imagen (que en este caso es img3)
+        
+        btn.gameObject.SetActive(false);
+        contar=true;
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(contar){
+            switch(numero){
+                case 0: Debug.Log("Terminado - Salto a otra escena");break;
+                case 1:
+                     img.sprite=spNumeros[0]; 
+                     texto.text="UNO"; 
+                     break;
+                case 2: 
+                    img.sprite=spNumeros[1];
+                    texto.text="DOS";
+                    break;
+                case 3: 
+                    img.sprite=spNumeros[2];
+                    texto.text="TRES";
+                    break;
+
+            }
+            StartCoroutine(Esperar());
+            contar=false;
+            numero--;
+
+        }
+
+        
+    }
+    IEnumerator Esperar(){
+        yield return new WaitForSeconds(1);
+        contar=true;
+    }
+}
+
