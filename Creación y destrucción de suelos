@@ -1,0 +1,22 @@
+void OnCollisionExit(Collision other){
+        if(other.transform.tag=="suelo"){
+            StartCoroutine(CrearSuelo(other));
+        }
+    }
+    IEnumerator CrearSuelo(Collision col){
+        Debug.Log("Suelo cae");
+        yield return new WaitForSeconds(0.5f);
+        col.rigidbody.isKinematic=false;
+        col.rigidbody.useGravity=true;
+         yield return new WaitForSeconds(0.5f);
+         Destroy(col.gameObject);
+         float ran=Random.Range(0f,1f);
+         if(ran<0.5f){
+            valX+=6.0f;
+
+         }else{
+           valZ+=6.0f; 
+         }
+        GameObject elsuelo= Instantiate(prefabSuelo,new Vector3(valX,0,valZ),Quaternion.identity) as GameObject;
+
+    }
